@@ -5,7 +5,7 @@ from typing import Any, List, Optional, Union
 from warnings import warn
 
 import numpy as np
-from pydantic import BaseModel, Field, Json
+from pydantic import BaseModel,ConfigDict, Field, Json
 
 from ._yarrow_version import _yarrow_version
 
@@ -19,8 +19,8 @@ class Info(BaseModel):
     version         : str = _yarrow_version
     source          : Union[str, dict]
     date_created    : datetime
-    destination     : Optional[dict]
-    meta            : Optional[dict]
+    destination     : Optional[dict] = None
+    meta            : Optional[dict] = None
     # fmt: on
 
 
@@ -28,10 +28,10 @@ class Layer(BaseModel):
     # fmt: off
     id              : str = Field(default_factory=uuid_init)
     frame_id        : int
-    width           : Optional[int]
-    height          : Optional[int]
+    width           : Optional[int] = None
+    height          : Optional[int] = None
     name            : Optional[str] = ""
-    meta            : Optional[dict]
+    meta            : Optional[dict] = None
     # fmt: on
 
     def __hash__(self) -> int:
@@ -57,13 +57,13 @@ class Image_pydantic(BaseModel):
     height          : int
     file_name       : str
     date_captured   : datetime
-    azure_url       : Optional[str]
-    confidential_id : Optional[str]
-    meta            : Optional[Union[dict, Json]]
-    comment         : Optional[str]
-    asset_id        : Optional[str]
-    layers          : Optional[List[Layer]]
-    split           : Optional[str]
+    azure_url       : Optional[str] = None
+    confidential_id : Optional[str] = None
+    meta            : Optional[Union[dict, Json]] = None
+    comment         : Optional[str] = None
+    asset_id        : Optional[str] = None
+    layers          : Optional[List[Layer]] = None
+    split           : Optional[str] = None
     # fmt: on
 
     def __eq__(self, other) -> bool:
@@ -92,8 +92,8 @@ class MultilayerImage_pydantic(BaseModel):
     id              : str = Field(default_factory=uuid_init)
     image_id        : List[str] = Field(default_factory=list)
     name            : Optional[str] = ""
-    meta            : Optional[dict]
-    split           : Optional[str]
+    meta            : Optional[dict] = None
+    split           : Optional[str] = None
     # fmt: on
 
     def __hash__(self) -> int:
@@ -149,10 +149,10 @@ class Category(BaseModel):
     # fmt: off
     id              : str = Field(default_factory=uuid_init)
     name            : str
-    value           : Optional[str]
-    super_category  : Optional[str]
-    keypoints       : Optional[List[str]]
-    skeleton        : Optional[List[Edge]]
+    value           : Optional[str] = None
+    super_category  : Optional[str] = None
+    keypoints       : Optional[List[str]] = None
+    skeleton        : Optional[List[Edge]] = None
     # fmt: on
 
     def __eq__(self, other) -> bool:
@@ -239,20 +239,20 @@ class Annotation_pydantic(BaseModel):
     image_id        : Union[str, List[str]]
     category_id     : Union[str, List[str]]
     contributor_id  : str
-    name            : Optional[str]
-    comment         : Optional[str]
-    segmentation    : Optional[Union[List[List[float]], RLE]] = Field(deprecated=True)
+    name            : Optional[str] = None
+    comment         : Optional[str] = None
+    segmentation    : Optional[Union[List[List[float]], RLE]] = Field(deprecated=True,default=None)
     is_crowd        : Optional[int] = Field(default=0, deprecated=True)
-    mask            : Optional[RLE]
-    polygon         : Optional[List[List[float]]]
-    polyline        : Optional[List[List[float]]]
-    area            : Optional[float]
-    bbox            : Optional[List[float]]
-    keypoints       : Optional[List[List[float]]]
-    num_keypoints   : Optional[int]
-    weight          : Optional[float]
-    date_captured   : Optional[datetime]
-    meta            : Optional[dict]
+    mask            : Optional[RLE] = None
+    polygon         : Optional[List[List[float]]] = None
+    polyline        : Optional[List[List[float]]] = None 
+    area            : Optional[float] = None
+    bbox            : Optional[List[float]] = None
+    keypoints       : Optional[List[List[float]]] = None
+    num_keypoints   : Optional[int] = None
+    weight          : Optional[float] = None
+    date_captured   : Optional[datetime] = None
+    meta            : Optional[dict] = None
     # fmt: on
 
     def __eq__(self, other) -> bool:
@@ -271,12 +271,13 @@ class Annotation_pydantic(BaseModel):
 
 
 class Contributor(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     # fmt: off
     id              : str = Field(default_factory=uuid_init)
     human           : bool
     name            : str
-    model_id        : Optional[str]
-    human_id        : Optional[str]
+    model_id        : Optional[str] = None
+    human_id        : Optional[str] = None
     # fmt: on
 
     def __eq__(self, other: Any) -> bool:
