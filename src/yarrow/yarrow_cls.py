@@ -13,8 +13,6 @@ from copy import copy
 from datetime import datetime
 from warnings import warn
 
-from pydantic import StrBytes
-
 from .yarrow import *
 
 
@@ -732,7 +730,7 @@ class YarrowDataset:
 
         annot_list = []
         for annot in annot_list_source:
-            annot_param = annot.dict(exclude_unset=True)
+            annot_param = annot.model_dump(exclude_unset=True)
 
             # Get contributor from its id
             contr = next(
@@ -786,12 +784,14 @@ class YarrowDataset:
 
     @classmethod
     def parse_file(cls, path, **kwargs) -> "YarrowDataset":
-        return cls.from_yarrow(YarrowDataset_pydantic.parse_file(path, **kwargs))
-
+        with open(path,'rb') as jsf:
+            yar_dict = json.load(jsf)
+            return cls.parse_obj(yar_dict)
     @classmethod
     def parse_obj(cls, obj: dict, **kwargs) -> "YarrowDataset":
-        return cls.from_yarrow(YarrowDataset_pydantic.parse_obj(obj))
+        return cls.from_yarrow(YarrowDataset_pydantic.model_validate(obj))
 
     @classmethod
-    def parse_raw(cls, raw: StrBytes, **kwargs) -> "YarrowDataset":
-        return cls.from_yarrow(YarrowDataset_pydantic.parse_raw(raw, **kwargs))
+    def parse_raw(cls, raw: bytes, **kwargs) -> "YarrowDataset":
+        yar_dict = json.load(raw)
+        return cls.parse_obj(yar_dict)
