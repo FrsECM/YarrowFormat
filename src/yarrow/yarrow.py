@@ -70,6 +70,7 @@ class Image_pydantic(BaseModel):
         if isinstance(other, Image_pydantic):
             return all(
                 (
+                    self.azure_url == other.azure_url,
                     self.file_name == other.file_name,
                     self.width == other.width,
                     self.height == other.height,
