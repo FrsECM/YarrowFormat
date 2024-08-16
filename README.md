@@ -19,6 +19,12 @@ The full description can be found [here](schema/description.md) with the rules o
 ```sh
 pip install yarrowformat
 ```
+## Install it locally
+
+```sh
+source .venv/bin/activate
+pip install -e .
+```
 
 ## How to use
 
