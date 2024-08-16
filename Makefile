@@ -19,6 +19,14 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+VENV_NAME = .venv
+PIP = $(VENV_DIR)/bin/pip
+
+setup:
+	python -m venv $(VENV_NAME)
+	$(PIP) install --upgrade pip
+	$(PIP) install .[dev]
+
 check:
 	black . --check
 	isort . --check --gitignore

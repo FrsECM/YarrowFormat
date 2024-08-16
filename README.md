@@ -22,8 +22,8 @@ pip install yarrowformat
 ## Install it locally
 
 ```sh
+make setup
 source .venv/bin/activate
-pip install -e .
 ```
 
 ## How to use
