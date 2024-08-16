@@ -26,5 +26,4 @@ check:
 lint:
 	black .
 	isort . --gitignore
-	flake8 .
 	autoflake -i --remove-all-unused-imports -r --ignore-init-module-imports . --exclude .venv
