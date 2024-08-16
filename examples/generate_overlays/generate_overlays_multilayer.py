@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 from uuid import uuid4
 
-
 import yarrow
 
 if __name__ == "__main__":

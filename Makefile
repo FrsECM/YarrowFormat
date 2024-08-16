@@ -22,8 +22,9 @@ help:
 check:
 	black . --check
 	isort . --check --gitignore
+	autoflake --check .
 
 lint:
 	black .
 	isort . --gitignore
-	autoflake -i --remove-all-unused-imports -r --ignore-init-module-imports . --exclude .venv
+	autoflake -i --remove-all-unused-imports .
