@@ -142,7 +142,7 @@ All previously mentioned classes (Image, Annotation and YarrowDataset) implement
 ```python
 import json
 
-yar_set_dict = yar_set.pydantic().dict(exclude_none=True)
+yar_set_dict = yar_set.pydantic().model_dump(exclude_none=True)
 
 with open("path/to/file.yarrow.json", "w") as fp:
     json.dump(yar_set_dict, fp, default=str)

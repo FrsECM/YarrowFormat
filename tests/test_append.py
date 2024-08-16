@@ -47,7 +47,7 @@ def test_append_empty(yar_dataset: YarrowDataset):
 def test_save_and_load_file(yar_dataset: YarrowDataset, tmp_path):
     # We save the yarrow
     yar_path = os.path.join(tmp_path, "test.yarrow.json")
-    yar_dataset.pydantic().save_to_file(yar_path)
+    yar_dataset.pydantic().save_to_file(yar_path, exclude_none=True)
 
     new_dataset = YarrowDataset.parse_file(yar_path)
     compare_yarrow_datasets_pydantic(yar_dataset, new_dataset)
@@ -56,7 +56,7 @@ def test_save_and_load_file(yar_dataset: YarrowDataset, tmp_path):
 def test_save_and_load_raw(yar_dataset: YarrowDataset, tmp_path):
     # We save the yarrow
     yar_path = os.path.join(tmp_path, "test.yarrow.json")
-    yar_dataset.pydantic().save_to_file(yar_path)
+    yar_dataset.pydantic().save_to_file(yar_path, exclude_none=True)
 
     with open(yar_path, "rb") as jsf:
         new_dataset = YarrowDataset.parse_raw(jsf)
@@ -65,19 +65,21 @@ def test_save_and_load_raw(yar_dataset: YarrowDataset, tmp_path):
 
 def test_pass_wrong_dict_to_metrics_sould_raise():
     # Given
-    excepted_error_msg = "Input should be a valid number, unable to parse string as a number"
+    excepted_error_msg = (
+        "Input should be a valid number, unable to parse string as a number"
+    )
     excepted_number_errors = 1
-    
+
     # When
     with pytest.raises(ValidationError) as excinfo:
         YarrowDataset_pydantic(
             images=[],
             info=Info(source="common_flow", date_created="2021-01-01"),
             metrics={"key": "wrong_value"},
-        )     
+        )
     actual_error_msg = excinfo.value.errors()[0].get("msg")
     actual_number_errors = len(excinfo.value.errors())
-    
+
     # Then
     assert len(excinfo.value.errors()) == excepted_number_errors == actual_number_errors
     assert excepted_error_msg == actual_error_msg

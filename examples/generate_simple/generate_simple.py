@@ -18,4 +18,5 @@ if __name__ == "__main__":
 
     yarrowset.pydantic().save_to_file(
         "examples/generate_simple/example_simple.yarrow.json",
+        exclude_none=True,
     )
