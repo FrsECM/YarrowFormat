@@ -55,7 +55,7 @@ class Image:
         self.date_captured = date_captured
         self.azure_url = azure_url
         self.confidential = confidential
-        self.meta = meta or {}
+        self.meta = meta
         self.comment = comment
         self.asset_id = asset_id
         self.split = split
@@ -199,7 +199,7 @@ class Annotation:
         self.num_keypoints = num_keypoints
         self.weight = weight
         self.date_captured = date_captured
-        self.meta = meta or {}
+        self.meta = meta
 
         self._pydantic_self = None
 
@@ -322,7 +322,7 @@ class MultilayerImage:
         self.id = id or uuid_init()
         self.images = images or []
         self.name = name or ""
-        self.meta = meta or {}
+        self.meta = meta
         self.split = split
 
         self._pydantic = None
@@ -607,7 +607,7 @@ class YarrowDataset:
             ]
             if len(self.multilayer_images) > 0
             else None,
-            metrics=self.metrics,
+            metrics=self.metrics if self.metrics else None,
         )
 
     def set_split(self, split: str) -> None:
