@@ -31,8 +31,7 @@ jobs:
         if: ${{ always() }}
       - name: lint
         run: |
-          black --check .
-          isort -c .
+          make check
 
   build:
     needs: test

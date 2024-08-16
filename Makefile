@@ -18,3 +18,13 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+check:
+	black . --check
+	isort . --check --gitignore
+
+lint:
+	black .
+	isort . --gitignore
+	flake8 .
+	autoflake -i --remove-all-unused-imports -r --ignore-init-module-imports . --exclude .venv
