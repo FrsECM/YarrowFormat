@@ -63,7 +63,7 @@ def test_save_and_load_raw(yar_dataset: YarrowDataset, tmp_path):
     compare_yarrow_datasets_pydantic(yar_dataset, new_dataset)
 
 
-def test_pass_wrong_dict_to_metrics_sould_raise():
+def test_pass_wrong_dict_to_metrics_should_raise():
     # Given
     excepted_error_msg = (
         "Input should be a valid number, unable to parse string as a number"
@@ -85,7 +85,7 @@ def test_pass_wrong_dict_to_metrics_sould_raise():
     assert excepted_error_msg == actual_error_msg
 
 
-def test_pass_good_dict_to_metrics_sould_create_YarrowDataset():
+def test_pass_good_dict_to_metrics_should_create_YarrowDataset():
     # Given
     excepted_object = YarrowDataset_pydantic
     excepted_metrics = {"iou": 0.99}

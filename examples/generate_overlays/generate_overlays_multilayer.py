@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     yarrowset = yarrow.YarrowDataset(info=info)
 
-    # You shoud use the add_* method insert elements into the dataset
+    # You should use the add_* method insert elements into the dataset
     yarrowset.add_multilayer_image(multilayer=multilayer)
 
     with open(
