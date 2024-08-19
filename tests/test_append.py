@@ -83,3 +83,20 @@ def test_pass_wrong_dict_to_metrics_sould_raise():
     # Then
     assert len(excinfo.value.errors()) == excepted_number_errors == actual_number_errors
     assert excepted_error_msg == actual_error_msg
+
+
+def test_pass_good_dict_to_metrics_sould_create_YarrowDataset():
+    # Given
+    excepted_object = YarrowDataset_pydantic
+    excepted_metrics = {"iou": 0.99}
+
+    # When
+    actual_yar_dataset = YarrowDataset_pydantic(
+        images=[],
+        info=Info(source="common_flow", date_created="2021-01-01"),
+        metrics=excepted_metrics,
+    )
+
+    # Then
+    assert type(actual_yar_dataset) == excepted_object
+    assert actual_yar_dataset.metrics == excepted_metrics
