@@ -19,6 +19,12 @@ The full description can be found [here](schema/description.md) with the rules o
 ```sh
 pip install yarrowformat
 ```
+## Install it locally
+
+```sh
+make setup
+source .venv/bin/activate
+```
 
 ## How to use
 
@@ -41,7 +47,7 @@ yar_set.add_annotation(annot)
 
 # now save it somewhere else
 with open("path/to/other/file.yarrow.json", "w") as fp:
-    json.dump(yar_set.pydantic().dict(), fp, default=str)
+    json.dump(yar_set.pydantic().model_dump(exclude_none=True), fp, default=str)
 
 ```
 

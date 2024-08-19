@@ -55,7 +55,7 @@ class Image:
         self.date_captured = date_captured
         self.azure_url = azure_url
         self.confidential = confidential
-        self.meta = meta or {}
+        self.meta = meta
         self.comment = comment
         self.asset_id = asset_id
         self.split = split
@@ -199,7 +199,7 @@ class Annotation:
         self.num_keypoints = num_keypoints
         self.weight = weight
         self.date_captured = date_captured
-        self.meta = meta or {}
+        self.meta = meta
 
         self._pydantic_self = None
 
@@ -322,7 +322,7 @@ class MultilayerImage:
         self.id = id or uuid_init()
         self.images = images or []
         self.name = name or ""
-        self.meta = meta or {}
+        self.meta = meta
         self.split = split
 
         self._pydantic = None
@@ -385,6 +385,7 @@ class YarrowDataset:
         confidential: List[Clearance] = None,
         categories: List[Category] = None,
         multilayer_images: List[MultilayerImage] = None,
+        metrics: Dict[str, float] = None,
     ) -> None:
         """Entry point for a YarrowDataset, can be created empty of images or annotations.\
             Use the appropriate functions `add_annotations()` and `add_images()` to insert \
@@ -407,6 +408,7 @@ class YarrowDataset:
             confidential (List[Clearance], optional): Defaults to None.
             categories (List[Category], optional): Defaults to None.
             multilayer_images (List[MultilayerImage], optional): Defaults to None.
+            metrics (Dict[str, float], optional): Defaults to None.
         """
         self.info = info
         self.images = images or []
@@ -415,6 +417,7 @@ class YarrowDataset:
         self.confidential = confidential or []
         self.categories = categories or []
         self.multilayer_images = multilayer_images or []
+        self.metrics = metrics or {}
 
     def __eq__(self, other: "YarrowDataset"):
         if isinstance(other, YarrowDataset):
@@ -426,6 +429,7 @@ class YarrowDataset:
                     set(self.confidential) == set(other.confidential),
                     set(self.categories) == set(other.categories),
                     set(self.multilayer_images) == set(other.multilayer_images),
+                    set(self.metrics) == set(other.metrics),
                 )
             )
         return NotImplemented
@@ -603,6 +607,7 @@ class YarrowDataset:
             ]
             if len(self.multilayer_images) > 0
             else None,
+            metrics=self.metrics if self.metrics else None,
         )
 
     def set_split(self, split: str) -> None:
@@ -780,6 +785,7 @@ class YarrowDataset:
             confidential=conf_list,
             categories=cat_list,
             multilayer_images=multilayer_list,
+            metrics=yarrow.metrics,
         )
 
     @classmethod

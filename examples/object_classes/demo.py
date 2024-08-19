@@ -31,5 +31,5 @@ if __name__ == "__main__":
     yar_set.add_annotation(annot)
 
     yar_set_dict = yar_set.pydantic().save_to_file(
-        "examples/object_classes/demo.yarrow.json"
+        "examples/object_classes/demo.yarrow.json", exclude_none=True
     )

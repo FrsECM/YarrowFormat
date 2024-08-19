@@ -147,7 +147,7 @@ def test_yar_cls_add_annotation(
 def test_poly_mask_validator(yar_dataset: YarrowDataset):
     annot = yar_dataset.annotations[0]
 
-    annot_param = annot.pydantic().dict()
+    annot_param = annot.pydantic().model_dump(exclude_none=True)
     polygon = [[0.1, 0.1], [0.2, 0.2], [0.3, 0.3]]
 
     annot_param["polygon"] = polygon
@@ -183,7 +183,7 @@ def test_image_id(yar_dataset: YarrowDataset):
 
 
 def test_serialize(yar_dataset: YarrowDataset):
-    str_res = yar_dataset.pydantic().json(exclude_none=True)
+    str_res = yar_dataset.pydantic().model_dump_json(exclude_none=True)
 
     dict_res = json.loads(str_res)
 

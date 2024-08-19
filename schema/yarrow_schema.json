@@ -46,6 +46,14 @@
             "items": {
                 "$ref": "#/definitions/MultilayerImage_pydantic"
             }
+        },
+        "metrics": {
+            "title": "Metrics",
+            "type": "dict",
+            "items": {
+                "$ref": "#/definitions/Metrics"
+            }
+
         }
     },
     "required": [
@@ -502,6 +510,11 @@
                     "type": "string"
                 }
             }
+        },
+        "Metrics": {
+            "title": "Metrics",
+            "description": "Defining custom metrics links to image",
+            "type": "dict"
         }
     }
 }

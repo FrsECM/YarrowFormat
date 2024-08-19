@@ -1,7 +1,7 @@
 import json
 import uuid
 from datetime import datetime
-from typing import Any, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from warnings import warn
 
 import numpy as np
@@ -70,6 +70,7 @@ class Image_pydantic(BaseModel):
         if isinstance(other, Image_pydantic):
             return all(
                 (
+                    self.azure_url == other.azure_url,
                     self.file_name == other.file_name,
                     self.width == other.width,
                     self.height == other.height,
@@ -298,6 +299,7 @@ class YarrowDataset_pydantic(BaseModel):
     contributors     : Optional[List[Contributor]] = Field(default_factory=list)
     categories       : Optional[List[Category]] = Field(default_factory=list)
     multilayer_images: Optional[List[MultilayerImage_pydantic]] = Field(default_factory=list)
+    metrics          : Optional[Dict[str, float]] = None
     # fmt: on
 
     def __eq__(self, other: Any) -> bool:

@@ -2,8 +2,6 @@ import json
 from datetime import datetime
 from uuid import uuid4
 
-from pydantic import BaseModel
-
 import yarrow
 
 if __name__ == "__main__":
@@ -40,12 +38,15 @@ if __name__ == "__main__":
 
     yarrowset = yarrow.YarrowDataset(info=info)
 
-    # You shoud use the add_* method insert elements into the dataset
+    # You should use the add_* method insert elements into the dataset
     yarrowset.add_multilayer_image(multilayer=multilayer)
 
     with open(
         "examples/generate_overlays/example_overlays_multilayer.yarrow.json", "w"
     ) as fp:
         json.dump(
-            yarrowset.pydantic().dict(exclude_none=True), fp, default=str, indent=4
+            yarrowset.pydantic().model_dump(eexclude_none=True),
+            fp,
+            default=str,
+            indent=4,
         )
