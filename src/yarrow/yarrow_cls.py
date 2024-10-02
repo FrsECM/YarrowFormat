@@ -12,7 +12,7 @@ Each class has a pydantic conversion:
 from copy import copy
 from datetime import datetime
 from warnings import warn
-
+import os
 from .yarrow import *
 
 
@@ -211,6 +211,9 @@ class Annotation:
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Annotation):
+            if np.asarray(self.polygon).shape != np.asarray(other.polygon).shape:
+                return False
+            
             return all(
                 (
                     self.name == other.name,
@@ -670,6 +673,17 @@ class YarrowDataset:
         """
         for yarrow in yarrows:
             self.append(yarrow)
+
+    def save(self,yar_path:str,indent=None):
+        """Save the current YarrowDataset to a file
+
+        Args:
+            yar_path (str): Path to save the file
+            exist_ok (boolean, optional): If True, will overwrite the file if it already exists. Defaults to False.
+        """
+        os.makedirs(os.path.dirname(yar_path),exist_ok=True)
+        with open(yar_path, "w") as jsf:
+            json.dump(self.pydantic().model_dump(),jsf,indent=indent,default=str)
 
     @classmethod
     def from_yarrow(cls, yarrow: YarrowDataset_pydantic) -> "YarrowDataset":
