@@ -45,4 +45,7 @@ def test_create_multiple_annotations(yarrow_base:YarrowDataset,contributor_base:
     )
     list_annotations = [ann1,ann2]
     yarrow_base.add_annotations(list_annotations)
+    # We check that annotations were added correctly
+    assert np.asarray(yarrow_base.annotations[0].polygon).shape[0]==23,"First Polygon Shape == 23"
+    assert np.asarray(yarrow_base.annotations[1].polygon).shape[0]==10,"First Polygon Shape == 10"
 
